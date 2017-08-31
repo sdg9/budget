@@ -236,7 +236,6 @@ mint_to_ynab_cat_translation = {
         'Steven Roth': 'Roth IRA',
         'Home Improvement': 'Renovations',
         'Mundelein Repairs': 'Maintenance',
-        'Home Insurance': 'Homeowners Insurance',
         # 'Electricity Bill': 'Electric & Gas',
         'Hot Tub': 'Hot Tub 6000/145',
         'Huntington Furnishings': 'Furnishings (Huntington) 3000/77'
@@ -260,6 +259,18 @@ memo_to_account_mapping_dict = {
     'Chase Checking':'Chase Checking',
     'XXX-XXXX-979':'Kohl\'s Credit',
 }
+
+valid_skip_categories = [
+    'Credit Card Payment',
+    'Transfer',
+    'HSA',
+    'Bank to Bank Transfe',
+    'Transfer to Paypal',
+    '0'
+]
+valid_skip_description = [
+    'Check 0'
+]
 
 '''
 Maps a mint category into a YNAB category
@@ -399,6 +410,10 @@ def mint_csv_to_ynab(selected_date):
                 updatedCategory = ''
             writer.writerow([date, payee, updatedCategory, memo, outflow, inflow, account]);
             count = count + 1
+        elif (category in valid_skip_categories):
+            print "Allowed category to skip"
+        elif (payee in valid_skip_description):
+            print "Allowed category to skip"
         else:
             fOut.write("\nOmitting: ")
             fOut.write(', '.join([date, payee, category, memo, outflow, inflow, account]))
